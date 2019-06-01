@@ -48,6 +48,6 @@ public class TotalCalculatorEngineTest
 		assertEquals( "Il prezzo tassato dovrebbe essere", 9.75, TotalCalculatorEngine.INSTANCE.calculateBasketItemTaxed( item ).taxedValue, DELTA );
 
 		item = BasketItemFactory.createBasketItem( Good.GoodFactory.createImportedNotTaxableGood( 11.25, "Imported box of Chocolate " ) );
-		assertEquals( "Il prezzo tassato dovrebbe essere", 11.80, TotalCalculatorEngine.INSTANCE.calculateBasketItemTaxed( item ).taxedValue, DELTA );
+		assertEquals( "Il prezzo tassato dovrebbe essere", 11.85, TotalCalculatorEngine.INSTANCE.calculateBasketItemTaxed( item ).taxedValue, DELTA );
 	}
 }
