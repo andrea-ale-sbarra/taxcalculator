@@ -4,8 +4,6 @@ package it.liferayinterview.taxcalculator;
 
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.function.Function;
 
 
@@ -16,23 +14,16 @@ public enum TotalCalculatorEngine
 {
 	INSTANCE;
 
-	private static final BigDecimal		ROUND_TO			= new BigDecimal( "0.05" );
+	public Function < Good, Double > calculateGoodTax = g -> {
+		BigDecimal _netPrice = new BigDecimal( Double.toString( g.netPrice ) );
+		BigDecimal _taxRate = new BigDecimal( Double.toString( g.taxRate ) );
+		BigDecimal ret = _taxRate.multiply( _netPrice ).divide( new BigDecimal( 100 ) );
+		BigDecimal rounded = ret.setScale( 2, BigDecimal.ROUND_UP );
 
-	public Function < Good, Double >	calculateGoodTax	= g -> {
-																BigDecimal _netPrice = new BigDecimal( Double.toString( g.netPrice ) );
-																BigDecimal _taxRate = new BigDecimal( Double.toString( g.taxRate ) );
-																BigDecimal ret = _taxRate.multiply( _netPrice ).divide( new BigDecimal( 100 ) );
-																BigDecimal rounded = round( ret );
-																return rounded.doubleValue( );
-															};
+		Double retD = Math.ceil( rounded.doubleValue( ) * 20.0 ) / 20.0;
 
-	private BigDecimal round( BigDecimal value )
-	{
-		value = value.divide( ROUND_TO );
-		value = new BigDecimal( Math.ceil( value.doubleValue( ) ) );
-		value = value.multiply( ROUND_TO );
-		return value;
-	}
+		return retD;
+	};
 
 	public BasketTotal init( String name )
 	{
